@@ -49,6 +49,7 @@
             <div class="author-item"><span class="author-name">Gamoda</span><span class="author-role">[Map Development]</span></div>
         </div>
 
+        <!-- КРАСИВЫЙ СПИСОК ИГРОКОВ -->
         <div class="authors-title">Players Online</div>
         <div id="player-list" class="author-item" style="color: rgba(255, 255, 255, 0.8); margin-top: 5px;">Загрузка списка...</div>
 
@@ -58,30 +59,32 @@
 
 <script>
     async function updatePlayers() {
+        const list = document.getElementById('player-list');
         try {
-            // Используем другой прокси для надежности
+            // Используем надежный прокси corsproxy.io
             const api_url = 'https://gamemonitoring.ru';
-            const response = await fetch('https://allorigins.win' + encodeURIComponent(api_url) + '&t=' + Date.now());
-            const json = await response.json();
-            const data = JSON.parse(json.contents);
+            const response = await fetch('https://corsproxy.io?' + encodeURIComponent(api_url));
             
-            const container = document.getElementById('player-list');
-
+            if (!response.ok) throw new Error('Network error');
+            
+            const data = await response.json();
+            
             if (data && data.response && data.response.players && data.response.players.length > 0) {
-                // Собираем имена всех игроков
+                // Превращаем массив объектов в строку имен
                 const names = data.response.players.map(p => p.name).join(', ');
-                container.innerText = names;
+                list.innerText = names;
             } else {
-                container.innerText = "Сервер пуст (обновление данных...)";
+                list.innerText = "На сервере пока никого нет";
             }
         } catch (e) {
-            document.getElementById('player-list').innerText = "Ошибка загрузки";
-            console.log(e);
+            list.innerText = "Служба мониторинга временно недоступна";
+            console.error("Fetch error:", e);
         }
     }
-    // Запуск сразу и каждые 20 секунд
+
+    // Запускаем сразу и обновляем раз в 40 секунд
     updatePlayers();
-    setInterval(updatePlayers, 20000);
+    setInterval(updatePlayers, 40000);
 </script>
 
 </body>
