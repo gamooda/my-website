@@ -69,8 +69,6 @@
         .author-name { font-weight: 600; color: rgba(255, 255, 255, 0.95); }
         .author-role { font-size: 12px; color: rgba(255, 255, 255, 0.65); display: block; }
         .spacer { flex-grow: 1; min-height: 15px; }
-
-        /* Правая панель */
         .players-panel {
             width: 320px;
             height: 94vh;
@@ -158,17 +156,6 @@
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
             return m;
-        });
-    }
-    // Уведомляем Lua, что страница готова
-    if (window.external && window.external.OnDocumentReady) {
-        window.external.OnDocumentReady();
-    } else {
-        // Если внешний интерфейс ещё не подключён, просто шлём событие через некоторое время
-        window.addEventListener('load', function() {
-            if (window.external && window.external.OnDocumentReady) {
-                window.external.OnDocumentReady();
-            }
         });
     }
 </script>
