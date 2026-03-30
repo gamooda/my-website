@@ -2,25 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CS2 Loading | SledBuild History</title>
+    <title>CS2 Loading | SledBuild History + Players</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             height: 100vh;
             font-family: 'Roboto Condensed', sans-serif;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             overflow: hidden;
             position: relative;
             background-color: #0a0c10;
+            padding: 0 30px;
         }
-
         .animated-bg {
             position: fixed;
             top: -10%;
@@ -33,25 +28,16 @@
             animation: slowMove 24s infinite alternate ease-in-out;
             will-change: transform;
         }
-
         @keyframes slowMove {
-            0% {
-                transform: scale(1) translate(0, 0);
-            }
-            100% {
-                transform: scale(1.12) translate(2%, 1%);
-            }
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.12) translate(2%, 1%); }
         }
-
         .cs2-panel {
             width: 520px;
             height: 94vh;
-            margin-left: 30px;
             background: rgba(10, 15, 20, 0.4);
             backdrop-filter: blur(18px) brightness(0.92);
-            -webkit-backdrop-filter: blur(18px) brightness(0.92);
             padding: 50px 45px;
-            box-sizing: border-box;
             color: white;
             position: relative;
             box-shadow: 15px 0 40px rgba(0, 0, 0, 0.5);
@@ -59,133 +45,66 @@
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             overflow-y: auto;
         }
-
-        .cs2-panel::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .cs2-panel::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-        }
-
-        .cs2-panel::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.4);
-            border-radius: 2px;
-        }
-
+        .cs2-panel::-webkit-scrollbar { width: 4px; }
+        .cs2-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 2px; }
+        .cs2-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 2px; }
         .cs2-panel::after {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0);
             background-size: 4px 4px;
             pointer-events: none;
-            z-index: 1;
             border-radius: 12px;
         }
+        .content-wrapper { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; }
+        .gmod-container { display: flex; justify-content: center; margin-bottom: 20px; }
+        .gmod-logo { width: 280px; filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6)); }
+        .divider { width: 100%; height: 3px; background: rgba(255, 255, 255, 0.4); margin: 10px 0 25px 0; border-radius: 3px; }
+        .history-title { font-size: 22px; font-weight: 700; margin: 15px 0 12px 0; color: rgba(255, 255, 255, 0.95); }
+        .history-text { font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, 0.9); margin-bottom: 20px; text-align: justify; }
+        .authors-title { font-size: 20px; font-weight: 700; margin: 20px 0 15px 0; color: rgba(255, 255, 255, 0.95); border-left: 3px solid rgba(255,255,255,0.5); padding-left: 12px; }
+        .authors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin-bottom: 20px; }
+        .author-item { font-size: 14px; color: rgba(255, 255, 255, 0.85); }
+        .author-name { font-weight: 600; color: rgba(255, 255, 255, 0.95); }
+        .author-role { font-size: 12px; color: rgba(255, 255, 255, 0.65); display: block; }
+        .spacer { flex-grow: 1; min-height: 15px; }
 
-        .content-wrapper {
-            position: relative;
-            z-index: 2;
+        /* Правая панель */
+        .players-panel {
+            width: 320px;
+            height: 94vh;
+            background: rgba(10, 15, 20, 0.4);
+            backdrop-filter: blur(18px) brightness(0.92);
+            border-radius: 12px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            color: white;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5);
         }
-
-        .gmod-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 0 20px 0;
-        }
-
-        .gmod-logo {
-            width: 280px;
-            max-width: 100%;
-            height: auto;
-            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
-        }
-
-        .divider {
-            width: 100%;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.4);
-            border: none;
-            margin: 10px 0 25px 0;
-            border-radius: 3px;
-        }
-
-        .history-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin: 15px 0 12px 0;
-            letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .history-text {
-            font-size: 15px;
-            line-height: 1.45;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .authors-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin: 20px 0 15px 0;
-            color: rgba(255, 255, 255, 0.95);
-            border-left: 3px solid rgba(255,255,255,0.5);
-            padding-left: 12px;
-        }
-
-        .authors-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px 20px;
-            margin-bottom: 20px;
-        }
-
-        .author-item {
-            font-size: 14px;
-            line-height: 1.4;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .author-name {
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .author-role {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.65);
-            display: block;
-        }
-
-        .spacer {
-            flex-grow: 1;
-            min-height: 15px;
-        }
+        .players-title { font-size: 24px; font-weight: 700; margin-bottom: 25px; text-align: center; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 8px; align-self: center; }
+        .players-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .player-card { background: rgba(0, 0, 0, 0.4); border-radius: 12px; padding: 10px 15px; display: flex; align-items: center; gap: 15px; backdrop-filter: blur(4px); }
+        .player-avatar { width: 48px; height: 48px; border-radius: 50%; background: #2c2f36; object-fit: cover; border: 1px solid rgba(255,255,255,0.3); }
+        .player-info { flex: 1; }
+        .player-name { font-size: 16px; font-weight: 600; color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.5); }
+        .player-status { font-size: 11px; color: #8bc34a; margin-top: 4px; display: block; }
+        .empty-players { text-align: center; color: rgba(255,255,255,0.6); margin-top: 40px; font-style: italic; }
+        .players-list::-webkit-scrollbar { width: 4px; }
+        .players-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 2px; }
+        .players-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 2px; }
     </style>
 </head>
 <body>
-
 <div class="animated-bg"></div>
-
 <div class="cs2-panel">
     <div class="content-wrapper">
         <div class="gmod-container">
             <img src="img/gmod_logo_brave.png" alt="SledBuild Logo" class="gmod-logo">
         </div>
-
         <hr class="divider">
-
         <div class="history-title">Mode History</div>
         <div class="history-text">
             In distant December 2008, G3H (GeXeH) published his work - the SledBuild game mode for Garry's Mod 10 on the platform "garrysmod.org". The development of this mode gave the author his initial understanding of programming basics.
@@ -193,16 +112,65 @@
         <div class="history-text">
             On January 24, 2013, Robinkooli ported the work as part of the Workshop Beta for Garry's Mod, offering an updated and corrected version of the mode for Garry's Mod 13.
         </div>
-
         <div class="authors-title">SledBuild: Re-Classic 2026</div>
         <div class="authors-grid">
             <div class="author-item"><span class="author-name">/scientist_02</span><span class="author-role">[Coding & Development :: Server Owner]</span></div>
             <div class="author-item"><span class="author-name">Gamoda</span><span class="author-role">[Map Development & Development :: Server Owner]</span></div>
         </div>
-
         <div class="spacer"></div>
     </div>
 </div>
-
+<div class="players-panel">
+    <div class="players-title">⚡ ONLINE PLAYERS</div>
+    <div id="playersList" class="players-list">
+        <div class="empty-players">Loading players...</div>
+    </div>
+</div>
+<script>
+    window.updatePlayersList = function(playersJson) {
+        try {
+            const players = JSON.parse(playersJson);
+            const container = document.getElementById('playersList');
+            if (!players || players.length === 0) {
+                container.innerHTML = '<div class="empty-players">No players online</div>';
+                return;
+            }
+            let html = '';
+            for (let i = 0; i < players.length; i++) {
+                const p = players[i];
+                html += `
+                    <div class="player-card">
+                        <img class="player-avatar" src="${p.avatar}" onerror="this.src='https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg'">
+                        <div class="player-info">
+                            <div class="player-name">${escapeHtml(p.name)}</div>
+                            <span class="player-status">● Online</span>
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        } catch(e) { console.error(e); }
+    };
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    // Уведомляем Lua, что страница готова
+    if (window.external && window.external.OnDocumentReady) {
+        window.external.OnDocumentReady();
+    } else {
+        // Если внешний интерфейс ещё не подключён, просто шлём событие через некоторое время
+        window.addEventListener('load', function() {
+            if (window.external && window.external.OnDocumentReady) {
+                window.external.OnDocumentReady();
+            }
+        });
+    }
+</script>
 </body>
 </html>
