@@ -40,7 +40,7 @@
 
         <div class="history-title">Mode History</div>
         <div class="history-text">
-            In distant December 2008, G3H (GeXeH) published his work - the SledBuild game mode for Garry's Mod 10 on the platform "garrysmod.org".
+            In distant December 2008, G3H (GeXeH) published his work - the SledBuild game mode for Garry's Mod 10.
         </div>
 
         <div class="authors-title">SledBuild: Re-Classic 2026</div>
@@ -49,9 +49,8 @@
             <div class="author-item"><span class="author-name">Gamoda</span><span class="author-role">[Map Development]</span></div>
         </div>
 
-        <!-- БЛОК ИГРОКОВ -->
         <div class="authors-title">Players Online</div>
-        <div id="player-list" class="author-item" style="color: rgba(255, 255, 255, 0.8); margin-top: 5px;">Загрузка...</div>
+        <div id="player-list" class="author-item" style="color: rgba(255, 255, 255, 0.8); margin-top: 5px;">Загрузка списка...</div>
 
         <div class="spacer"></div>
     </div>
@@ -60,24 +59,29 @@
 <script>
     async function updatePlayers() {
         try {
-            // Используем прокси для обхода CORS на GitHub
-            const response = await fetch('https://allorigins.win' + encodeURIComponent('https://gamemonitoring.ru'));
-            const data = await response.json();
-            const serverData = JSON.parse(data.contents);
+            // Используем другой прокси для надежности
+            const api_url = 'https://gamemonitoring.ru';
+            const response = await fetch('https://allorigins.win' + encodeURIComponent(api_url) + '&t=' + Date.now());
+            const json = await response.json();
+            const data = JSON.parse(json.contents);
             
             const container = document.getElementById('player-list');
 
-            if (serverData.response.players && serverData.response.players.length > 0) {
-                container.innerText = serverData.response.players.map(p => p.name).join(', ');
+            if (data && data.response && data.response.players && data.response.players.length > 0) {
+                // Собираем имена всех игроков
+                const names = data.response.players.map(p => p.name).join(', ');
+                container.innerText = names;
             } else {
-                container.innerText = "Сервер пуст";
+                container.innerText = "Сервер пуст (обновление данных...)";
             }
         } catch (e) {
-            document.getElementById('player-list').innerText = "Ошибка мониторинга";
+            document.getElementById('player-list').innerText = "Ошибка загрузки";
+            console.log(e);
         }
     }
+    // Запуск сразу и каждые 20 секунд
     updatePlayers();
-    setInterval(updatePlayers, 30000);
+    setInterval(updatePlayers, 20000);
 </script>
 
 </body>
