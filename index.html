@@ -125,6 +125,7 @@
     </div>
 </div>
 <script>
+    // Функция, которую будет вызывать Lua для обновления списка
     window.updatePlayersList = function(playersJson) {
         try {
             const players = JSON.parse(playersJson);
@@ -136,15 +137,12 @@
             let html = '';
             for (let i = 0; i < players.length; i++) {
                 const p = players[i];
-                html += `
-                    <div class="player-card">
-                        <img class="player-avatar" src="${p.avatar}" onerror="this.src='https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg'">
-                        <div class="player-info">
-                            <div class="player-name">${escapeHtml(p.name)}</div>
-                            <span class="player-status">● Online</span>
-                        </div>
-                    </div>
-                `;
+                html += '<div class="player-card">' +
+                    '<img class="player-avatar" src="' + p.avatar + '" onerror="this.src=\'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg\'">' +
+                    '<div class="player-info">' +
+                    '<div class="player-name">' + escapeHtml(p.name) + '</div>' +
+                    '<span class="player-status">● Online</span>' +
+                    '</div></div>';
             }
             container.innerHTML = html;
         } catch(e) { console.error(e); }
@@ -158,6 +156,7 @@
             return m;
         });
     }
+    console.log("GitHub loading screen ready");
 </script>
 </body>
 </html>
